@@ -24,7 +24,7 @@ export const projectsData: Project[] = [
 		id: "mizuki",
 		title: "Mizuki",
 		description:
-			"A next-gen Material Design 3 blog theme built with Astro, featuring i18n, dark mode, and responsive design.",
+			"基于 Astro 构建的新一代 Material Design 3 博客主题，支持多语言、深色模式与响应式设计。",
 		image: "/assets/projects/mizuki.webp",
 		category: "web",
 		techStack: ["Astro", "TypeScript", "Tailwind CSS", "Svelte"],
@@ -34,13 +34,13 @@ export const projectsData: Project[] = [
 		startDate: "2024-01-01",
 		endDate: "2024-06-01",
 		featured: true,
-		tags: ["Blog", "Theme", "Open Source"],
+		tags: ["博客", "主题", "开源"],
 	},
 	{
 		id: "folkpatch",
 		title: "FolkPatch",
 		description:
-			"A kernel-level ROOT solution based on KernelPatch, with polished UI, APM module system, and KPM kernel module support.",
+			"基于 KernelPatch 的内核级 ROOT 方案，提供精致界面、APM 模块系统与 KPM 内核模块支持。",
 		image: "/assets/projects/folkpatch.webp",
 		category: "mobile",
 		techStack: ["Kotlin", "Rust", "C++", "Java"],
@@ -49,13 +49,13 @@ export const projectsData: Project[] = [
 		visitUrl: "https://fp.mysqil.com",
 		startDate: "2024-03-01",
 		featured: true,
-		tags: ["Android", "Root", "Kernel"],
+		tags: ["Android", "ROOT", "内核"],
 	},
 	{
 		id: "folktool",
 		title: "FolkTool",
 		description:
-			"A fast ROOT flashing tool for FolkPatch with a graphical interface and automated operations, simplifying the complex flashing process.",
+			"面向 FolkPatch 的快速 ROOT 刷写工具，通过图形界面和自动化操作简化复杂的刷写流程。",
 		image: "",
 		category: "desktop",
 		techStack: ["Flutter", "Dart", "C++", "CMake"],
@@ -63,14 +63,14 @@ export const projectsData: Project[] = [
 		sourceCode: "https://github.com/LyraVoid/FolkTool",
 		startDate: "2026-02-01",
 		endDate: "2026-02-28",
-		tags: ["Android", "Tool", "Desktop"],
+		tags: ["Android", "工具", "桌面端"],
 		showImage: false,
 	},
 	{
 		id: "folkadb",
 		title: "FolkADB",
 		description:
-			"A portable ADB/Fastboot tool written in C, featuring interactive CLI, Tab completion, drag-and-drop module installation, and Shizuku activation.",
+			"使用 C 编写的便携式 ADB/Fastboot 工具，支持交互式命令行、Tab 补全、拖放安装模块和激活 Shizuku。",
 		image: "",
 		category: "desktop",
 		techStack: ["C"],
@@ -78,14 +78,14 @@ export const projectsData: Project[] = [
 		sourceCode: "https://github.com/LyraVoid/FolkADB",
 		startDate: "2025-06-01",
 		endDate: "2026-01-01",
-		tags: ["Android", "ADB", "CLI"],
+		tags: ["Android", "ADB", "命令行"],
 		showImage: false,
 	},
 	{
 		id: "folksplash",
 		title: "FolkSplash",
 		description:
-			"A web-based splash.img visualizer for OPPO/Realme/OnePlus devices, supporting unpack, preview, replace, and repack.",
+			"面向 OPPO、Realme 和 OnePlus 设备的网页端 splash.img 可视化工具，支持解包、预览、替换与重新打包。",
 		image: "",
 		category: "web",
 		techStack: ["React", "TypeScript", "Vite", "Material-UI", "Zustand"],
@@ -94,7 +94,7 @@ export const projectsData: Project[] = [
 		visitUrl: "https://splash.mysqil.com",
 		startDate: "2025-09-01",
 		endDate: "2025-10-01",
-		tags: ["Android", "Tool", "Frontend"],
+		tags: ["Android", "工具", "前端"],
 		showImage: false,
 	},
 ];

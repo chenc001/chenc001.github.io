@@ -1,10 +1,10 @@
 {
-	"title": "Some lovely pictures",
+	"title": "收藏的画面",
 	"hidden": false,
-	"description": "The world is vast, and you have to go explore it.",
+	"description": "把喜欢的画面留在这里。",
 	"date": "2025-08-01",
 	"location": "Bilibili",
-	"tags": ["Kawai", "Cute", "Moe"],
+	"tags": ["可爱", "插画", "收藏"],
 	"layout": "masonry",
 	"columns": 3
 }
