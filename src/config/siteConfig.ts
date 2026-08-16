@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
 	title: "辰萃",
 	subtitle: "记录生活里的小小美好",
 	siteURL: "https://chenc001.github.io/", // 请替换为你的站点URL，以斜杠结尾
-	siteStartDate: "2025-01-01", // 站点开始运行日期，用于站点统计组件计算运行天数
+	siteStartDate: "2026-08-16", // 仓库创建并首次提交的日期
 	timeZone: "Asia/Shanghai", // 文章日期使用的 IANA 时区，可改为 Asia/Tokyo、Europe/Berlin 等
 
 	lang: SITE_LANG,
