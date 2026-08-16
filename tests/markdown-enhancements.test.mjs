@@ -281,20 +281,20 @@ describe("Markdown AST enhancements", () => {
 		assert.equal(tree.children[0].attributes.title, "Known issue");
 	});
 
-	it("turns standalone wiki links into covered cards and inline links", async () => {
+	it("turns standalone wiki links into cards and inline links", async () => {
 		const tree = {
 			type: "root",
 			children: [
 				{
 					type: "paragraph",
-					children: [{ type: "text", value: "[[guide]]" }],
+					children: [{ type: "text", value: "[[first-post]]" }],
 				},
 				{
 					type: "paragraph",
 					children: [
 						{
 							type: "text",
-							value: "See [[guide|the guide]].",
+							value: "阅读 [[first-post|第一篇博客]]。",
 						},
 					],
 				},
@@ -302,10 +302,7 @@ describe("Markdown AST enhancements", () => {
 		};
 		await remarkWikiLink()(tree, {
 			path: fileURLToPath(
-				new URL(
-					"../src/content/posts/content-pipeline-fixture.mdx",
-					import.meta.url,
-				),
+				new URL("../src/content/posts/first-post.md", import.meta.url),
 			),
 		});
 		assert.equal(tree.children[0].data.hName, "a");
@@ -313,13 +310,13 @@ describe("Markdown AST enhancements", () => {
 		assert.equal(tree.children[0].children[0].data.hName, "span");
 		assert.equal(
 			tree.children[0].children[0].children[0].url,
-			"./guide/cover.webp",
+			"/assets/desktop-banner/1.webp",
 		);
 		assert.equal(
 			tree.children[0].children[0].data.hProperties.dataNoEnhance,
 			true,
 		);
 		assert.equal(tree.children[1].children[1].type, "link");
-		assert.equal(tree.children[1].children[1].children[0].value, "the guide");
+		assert.equal(tree.children[1].children[1].children[0].value, "第一篇博客");
 	});
 });
