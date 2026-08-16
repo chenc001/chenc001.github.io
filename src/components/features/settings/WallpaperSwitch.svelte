@@ -59,7 +59,7 @@ async function togglePanel() {
 
 <div class="relative z-50" role="menu" tabindex="-1">
 	<button
-		aria-label="Wallpaper Mode"
+		aria-label="壁纸模式"
 		role="menuitem"
 		class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 theme-switch-btn"
 		id="wallpaper-mode-switch"

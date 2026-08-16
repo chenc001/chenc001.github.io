@@ -94,7 +94,7 @@ function handleVolumeKeyDown(event: KeyboardEvent) {
 				type="button"
 				class="volume-btn"
 				onclick={onToggleMute}
-				aria-label="Toggle volume"
+				aria-label="切换音量控制"
 			>
 				<Icon
 					icon={isMuted || volume === 0

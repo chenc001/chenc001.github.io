@@ -45,7 +45,7 @@ function handleReset() {
 				type="button"
 				class="btn-regular w-6 h-6 rounded-md active:scale-90 opacity-0 group-hover:opacity-70 hover:opacity-100! transition-opacity"
 				onclick={handleReset}
-				aria-label="Reset section"
+				aria-label="重置此部分"
 			>
 				<Icon icon="fa7-solid:arrow-rotate-left" class="text-[0.7rem] text-(--btn-content)"></Icon>
 			</button>

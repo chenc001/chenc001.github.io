@@ -23,7 +23,7 @@ const fakeResult: SearchResult[] = [
 	{
 		url: url("/"),
 		meta: {
-			title: "This Is a Fake Search Result",
+			title: "暂时没有搜索结果",
 		},
 		excerpt:
 			"Because the search cannot work in the <mark>dev</mark> environment.",
@@ -31,7 +31,7 @@ const fakeResult: SearchResult[] = [
 	{
 		url: url("/"),
 		meta: {
-			title: "If You Want to Test the Search",
+			title: "试试搜索文章标题或内容",
 		},
 		excerpt: "Try running <mark>npm build && npm preview</mark> instead.",
 	},
@@ -298,7 +298,7 @@ onDestroy(() => {
 <!-- toggle btn for phone/tablet view -->
 <button
 	onclick={togglePanel}
-	aria-label="Search Panel"
+	aria-label="搜索面板"
 	id="search-switch"
 	class="btn-plain scale-animation lg:hidden! rounded-lg w-11 h-11 active:scale-90"
 >

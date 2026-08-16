@@ -21,7 +21,7 @@ export async function GET(context: APIContext) {
 
 	return rss({
 		title: siteConfig.title,
-		description: siteConfig.subtitle || "No description",
+		description: siteConfig.subtitle || "暂无描述",
 		site: context.site,
 		items,
 		customData: `<language>${escapeXml(siteConfig.lang)}</language>`,

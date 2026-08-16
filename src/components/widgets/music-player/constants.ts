@@ -46,8 +46,8 @@ export const LOCAL_PLAYLIST: Song[] = [
 ];
 
 export const DEFAULT_SONG: Song = {
-	title: "Sample Song",
-	artist: "Sample Artist",
+	title: "暂无歌曲",
+	artist: "暂无艺术家",
 	cover: DEFAULT_COVER_URL,
 	url: "",
 	duration: 0,

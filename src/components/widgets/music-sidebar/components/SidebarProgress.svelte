@@ -39,7 +39,7 @@ function handleKeyDown(event: KeyboardEvent) {
 		onkeydown={handleKeyDown}
 		role="slider"
 		tabindex="0"
-		aria-label="Music progress"
+		aria-label="音乐播放进度"
 		aria-valuemin="0"
 		aria-valuemax="100"
 		aria-valuenow={progressPercent}

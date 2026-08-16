@@ -327,7 +327,7 @@ $effect(() => {
 				>
 					{i18n(I18nKey.settingsThemeColor)}
 					<button
-						aria-label="Reset to Default"
+						aria-label="恢复默认设置"
 						class="btn-regular w-7 h-7 rounded-md active:scale-90"
 						class:opacity-0={hue === defaultHue}
 						class:pointer-events-none={hue === defaultHue}
@@ -372,7 +372,7 @@ $effect(() => {
 			>
 				{i18n(I18nKey.settingsWallpaper)}
 				<button
-					aria-label="Reset to Default"
+					aria-label="恢复默认设置"
 					class="btn-regular w-7 h-7 rounded-md active:scale-90"
 					class:opacity-0={wallpaperMode === defaultWallpaperMode}
 					class:pointer-events-none={wallpaperMode === defaultWallpaperMode}
@@ -474,7 +474,7 @@ $effect(() => {
 			>
 				{i18n(I18nKey.settingsWallpaperEffects)}
 				<button
-					aria-label="Reset to Default"
+					aria-label="恢复默认设置"
 					class="btn-regular w-7 h-7 rounded-md active:scale-90"
 					class:opacity-0={overlaySettingsIsDefault}
 					class:pointer-events-none={overlaySettingsIsDefault}
@@ -552,7 +552,7 @@ $effect(() => {
 			>
 				{i18n(I18nKey.settingsBanner)}
 				<button
-					aria-label="Reset to Default"
+					aria-label="恢复默认设置"
 					class="btn-regular w-7 h-7 rounded-md active:scale-90"
 					class:opacity-0={bannerSettingsIsDefault}
 					class:pointer-events-none={bannerSettingsIsDefault}
@@ -611,7 +611,7 @@ $effect(() => {
 			>
 				{i18n(I18nKey.settingsLayout)}
 				<button
-					aria-label="Reset to Default"
+					aria-label="恢复默认设置"
 					class="btn-regular w-7 h-7 rounded-md active:scale-90"
 					class:opacity-0={currentLayout === defaultLayout}
 					class:pointer-events-none={currentLayout === defaultLayout}

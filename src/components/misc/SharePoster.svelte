@@ -381,7 +381,7 @@ function portal(node: HTMLElement) {
 <button
 	class="btn-regular px-6 py-3 rounded-lg inline-flex items-center gap-2"
 	onclick={generatePoster}
-	aria-label="Generate Share Poster"
+	aria-label="生成分享海报"
 >
 	<span>{i18n(I18nKey.shareArticle)}</span>
 </button>

@@ -9,7 +9,7 @@ export async function GET(context: APIContext) {
 
 	const atomFeed = buildAtomFeed({
 		title: siteConfig.title,
-		subtitle: siteConfig.subtitle || "No description",
+		subtitle: siteConfig.subtitle || "暂无描述",
 		language: siteConfig.lang,
 		author: profileConfig.name,
 		site: context.site,

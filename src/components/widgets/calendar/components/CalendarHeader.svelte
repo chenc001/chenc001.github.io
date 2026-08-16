@@ -42,7 +42,7 @@ const title = $derived(
 			type="button"
 			class="flex justify-center items-center cursor-pointer hover:bg-[var(--btn-plain-bg-hover)] px-2 py-2 -ml-2 rounded-lg transition-colors"
 			onclick={onTitleClick}
-			aria-label="Select month or year"
+			aria-label="选择月份或年份"
 		>
 			<span
 				class="text-lg font-bold text-neutral-900 dark:text-neutral-100 select-none"
@@ -58,7 +58,7 @@ const title = $derived(
 				type="button"
 				class="p-1.5 rounded-md hover:bg-[var(--btn-plain-bg-hover)] text-[var(--primary)] transition-all"
 				onclick={onBackToToday}
-				aria-label="Back to today"
+				aria-label="返回今天"
 			>
 				<Icon
 					icon="material-symbols:restart-alt-rounded"
@@ -73,7 +73,7 @@ const title = $derived(
 				? ''
 				: 'invisible'}"
 			onclick={onPrevMonth}
-			aria-label="Previous month"
+			aria-label="上个月"
 		>
 			<Icon icon="material-symbols:arrow-back-ios-new" class="text-lg" />
 		</button>
@@ -84,7 +84,7 @@ const title = $derived(
 				? ''
 				: 'invisible'}"
 			onclick={onNextMonth}
-			aria-label="Next month"
+			aria-label="下个月"
 		>
 			<Icon
 				icon="material-symbols:arrow-back-ios-new"

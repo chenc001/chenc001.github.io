@@ -49,7 +49,7 @@ function handleBackdropKeydown(e: KeyboardEvent) {
 	onkeydown={handleBackdropKeydown}
 	role="dialog"
 	tabindex="0"
-	aria-label="Date selection panel"
+	aria-label="日期选择面板"
 >
 	{#if currentView === "month"}
 		<MonthPicker

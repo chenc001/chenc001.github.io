@@ -174,10 +174,10 @@ const t = (key: string) => i18n(key as I18nKey);
 					}
 					try {
 						await navigator.clipboard.writeText(url);
-						const originalText = this.textContent || "Copy Link";
+						const originalText = this.textContent || "复制链接";
 						this.textContent = url.includes("rss")
-							? "RSS link copied to clipboard!"
-							: "Atom link copied to clipboard!";
+							? "RSS 链接已复制到剪贴板！"
+							: "Atom 链接已复制到剪贴板！";
 						this.style.backgroundColor =
 							"var(--success-color, #10b981)";
 
@@ -187,9 +187,9 @@ const t = (key: string) => i18n(key as I18nKey);
 						}, 2000);
 					} catch (err) {
 						console.error("复制失败:", err);
-						const originalText = this.textContent || "Copy Link";
+						const originalText = this.textContent || "复制链接";
 						this.textContent =
-							"Copy failed, please copy the link manually";
+							"复制失败，请手动复制链接";
 						setTimeout(() => {
 							this.textContent = originalText;
 						}, 2000);
