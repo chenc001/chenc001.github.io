@@ -13,6 +13,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -48,6 +52,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -117,7 +123,9 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
     val state = viewModel.state
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     var settingsOpen by rememberSaveable { mutableStateOf(false) }
+    var metadataOpen by rememberSaveable { mutableStateOf(false) }
     var templateOpen by rememberSaveable { mutableStateOf(false) }
     var updateDialogOpen by rememberSaveable { mutableStateOf(false) }
     var availableUpdate by remember { mutableStateOf<AppUpdate?>(null) }
@@ -133,89 +141,165 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
         if (bodyField.text != state.body) bodyField = TextFieldValue(state.body)
     }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                        Text("✦", color = MizukiAccent, fontSize = 25.sp)
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = MizukiSurface,
+                drawerContentColor = MizukiText,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 14.dp, vertical = 18.dp),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 6.dp),
+                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                    ) {
+                        Text("✦", color = MizukiAccent, fontSize = 28.sp)
                         Spacer(Modifier.width(10.dp))
                         Column {
-                            Text("Mizuki Editor", style = MaterialTheme.typography.titleMedium)
-                            Text("手机端写作工作台 · ${BuildConfig.VERSION_NAME}", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
+                            Text("Mizuki", style = MaterialTheme.typography.titleLarge)
+                            Text("移动写作工作台", style = MaterialTheme.typography.bodySmall, color = MizukiMuted)
                         }
                     }
-                },
-                actions = {
+                    Spacer(Modifier.height(14.dp))
+                    HorizontalDivider(color = MizukiBorder.copy(alpha = 0.65f))
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        "工作区",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MizukiAccent,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("写作") },
+                        selected = true,
+                        onClick = { scope.launch { drawerState.close() } },
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("文章信息") },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                metadataOpen = true
+                            }
+                        },
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        "设置",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MizukiAccent,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("目标仓库与密钥") },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                settingsOpen = true
+                            }
+                        },
+                    )
                     if (availableUpdate != null) {
-                        TextButton(onClick = { updateDialogOpen = true }) {
-                            Text("更新", color = MizukiAccent, fontWeight = FontWeight.Bold)
+                        NavigationDrawerItem(
+                            label = { Text("更新到 ${availableUpdate!!.version}", color = MizukiAccent) },
+                            selected = false,
+                            onClick = {
+                                scope.launch {
+                                    drawerState.close()
+                                    updateDialogOpen = true
+                                }
+                            },
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = MizukiElevated.copy(alpha = 0.72f)),
+                        border = BorderStroke(1.dp, MizukiBorder.copy(alpha = 0.65f)),
+                    ) {
+                        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                            Text("当前仓库", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
+                            Text(
+                                if (state.owner.isBlank()) "尚未配置" else "${state.owner}/${state.repository}",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            TokenBadge(hasToken = state.hasToken)
                         }
                     }
-                    TokenBadge(hasToken = state.hasToken)
-                    Spacer(Modifier.width(4.dp))
-                    TextButton(onClick = { settingsOpen = true }) {
-                        Text("⚙", fontSize = 20.sp, color = MizukiText)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MizukiSurface.copy(alpha = 0.92f),
-                    titleContentColor = MizukiText,
-                ),
-            )
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        "${BuildConfig.VERSION_NAME} · Android",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MizukiMuted,
+                        modifier = Modifier.padding(horizontal = 12.dp),
+                    )
+                }
+            }
         },
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-        ) {
-            Spacer(Modifier.height(2.dp))
-            Text("WRITE", style = MaterialTheme.typography.labelSmall, color = MizukiAccent)
-            Text("写一篇新文章", style = MaterialTheme.typography.headlineSmall)
-            Text(
-                "文章会整理成 Front Matter + Markdown，并提交到你的博客仓库。",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MizukiMuted,
-            )
-            availableUpdate?.let { update ->
-                UpdateBanner(update = update, onClick = { updateDialogOpen = true })
-            }
-
-            EditorCard(label = "FRONT MATTER", hint = "文章元数据") {
-                MizukiTextField(
-                    value = state.title,
-                    onValueChange = viewModel::setTitle,
-                    label = "文章标题",
-                    placeholder = "给文章起一个标题",
+    ) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.background,
+            topBar = {
+                TopAppBar(
+                    navigationIcon = {
+                        TextButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Text("☰", fontSize = 21.sp, color = MizukiText)
+                        }
+                    },
+                    title = {
+                        Column {
+                            Text(
+                                state.title.ifBlank { "新文章" },
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = 1,
+                            )
+                            Text(
+                                "${state.body.length} 字 · ${state.path.ifBlank { "未命名文件" }}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MizukiMuted,
+                                maxLines = 1,
+                            )
+                        }
+                    },
+                    actions = {
+                        if (availableUpdate != null) {
+                            TextButton(onClick = { updateDialogOpen = true }) {
+                                Text("更新", color = MizukiAccent, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Button(
+                            onClick = viewModel::publish,
+                            enabled = !state.isPublishing,
+                            modifier = Modifier.height(40.dp).padding(end = 8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MizukiAccent,
+                                contentColor = Color(0xFF29260A),
+                                disabledContainerColor = MizukiAccent.copy(alpha = 0.45f),
+                            ),
+                        ) {
+                            Text(if (state.isPublishing) "发布中…" else "发布", fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MizukiSurface.copy(alpha = 0.96f),
+                        titleContentColor = MizukiText,
+                    ),
                 )
-                MizukiTextField(
-                    value = state.description,
-                    onValueChange = viewModel::setDescription,
-                    label = "描述",
-                    placeholder = "一句话介绍文章（可选）",
-                    minLines = 2,
-                )
-                MizukiTextField(
-                    value = state.tags,
-                    onValueChange = viewModel::setTags,
-                    label = "标签",
-                    placeholder = "用逗号分隔，例如：随笔, 技术",
-                )
-                MizukiTextField(
-                    value = state.path,
-                    onValueChange = viewModel::setPath,
-                    label = "文件名",
-                    placeholder = "article-slug.md",
-                    supportingText = "保存到 src/content/posts/",
-                )
-            }
-
-            EditorCard(label = "MARKDOWN", hint = "正文") {
+            },
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                ArticleMetaSummary(state = state, onClick = { metadataOpen = true })
                 ViewModeTabs(mode = viewMode, onModeChange = { viewMode = it })
                 if (viewMode != "preview") {
                     MarkdownToolbar(
@@ -226,9 +310,20 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
                         onTemplate = { templateOpen = true },
                     )
                 }
+                if (state.status.isNotBlank()) {
+                    Text(
+                        text = state.status,
+                        color = if (state.statusIsError) MaterialTheme.colorScheme.error else MizukiBlue,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 2,
+                    )
+                }
                 when (viewMode) {
-                    "preview" -> MarkdownPreview(state.body)
-                    "split" -> Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    "preview" -> MarkdownPreview(state.body, modifier = Modifier.weight(1f))
+                    "split" -> Column(
+                        modifier = Modifier.fillMaxWidth().weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
                         MarkdownEditor(
                             value = bodyField,
                             onValueChange = {
@@ -237,7 +332,7 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
                             },
                             compact = true,
                         )
-                        MarkdownPreview(state.body)
+                        MarkdownPreview(state.body, modifier = Modifier.weight(1f))
                     }
                     else -> MarkdownEditor(
                         value = bodyField,
@@ -245,17 +340,22 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
                             bodyField = it
                             viewModel.setBody(it.text)
                         },
+                        fillAvailable = true,
                     )
                 }
             }
-
-            PublishCard(
-                state = state,
-                onSettings = { settingsOpen = true },
-                onPublish = viewModel::publish,
-            )
-            Spacer(Modifier.height(22.dp))
         }
+    }
+
+    if (metadataOpen) {
+        ArticleMetaDialog(
+            state = state,
+            onDismiss = { metadataOpen = false },
+            onTitleChange = viewModel::setTitle,
+            onDescriptionChange = viewModel::setDescription,
+            onTagsChange = viewModel::setTags,
+            onPathChange = viewModel::setPath,
+        )
     }
 
     if (settingsOpen) {
@@ -315,6 +415,103 @@ private fun EditorApp(viewModel: EditorViewModel = viewModel()) {
             )
         }
     }
+}
+
+@Composable
+private fun ArticleMetaSummary(state: EditorState, onClick: () -> Unit) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MizukiSurface.copy(alpha = 0.78f)),
+        border = BorderStroke(1.dp, MizukiBorder.copy(alpha = 0.75f)),
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 13.dp, vertical = 9.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(
+                    state.title.ifBlank { "未命名文章" },
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                )
+                Text(
+                    buildString {
+                        append(if (state.description.isBlank()) "还没有摘要" else state.description)
+                        if (state.tags.isNotBlank()) append(" · ${state.tags}")
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MizukiMuted,
+                    maxLines = 1,
+                )
+            }
+            Text("文章信息  ›", color = MizukiBlue, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+@Composable
+private fun ArticleMetaDialog(
+    state: EditorState,
+    onDismiss: () -> Unit,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onTagsChange: (String) -> Unit,
+    onPathChange: (String) -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = MizukiSurface,
+        titleContentColor = MizukiText,
+        textContentColor = MizukiText,
+        shape = MaterialTheme.shapes.large,
+        title = {
+            Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text("文章信息")
+                Text("FRONT MATTER", style = MaterialTheme.typography.labelSmall, color = MizukiAccent)
+            }
+        },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                MizukiTextField(
+                    value = state.title,
+                    onValueChange = onTitleChange,
+                    label = "文章标题",
+                    placeholder = "给文章起一个标题",
+                )
+                MizukiTextField(
+                    value = state.description,
+                    onValueChange = onDescriptionChange,
+                    label = "描述",
+                    placeholder = "一句话介绍文章（可选）",
+                    minLines = 2,
+                )
+                MizukiTextField(
+                    value = state.tags,
+                    onValueChange = onTagsChange,
+                    label = "标签",
+                    placeholder = "用逗号分隔，例如：随笔, 技术",
+                )
+                MizukiTextField(
+                    value = state.path,
+                    onValueChange = onPathChange,
+                    label = "文件名",
+                    placeholder = "article-slug.md",
+                    supportingText = "保存到 src/content/posts/",
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(containerColor = MizukiAccent, contentColor = Color(0xFF29260A)),
+            ) { Text("完成", fontWeight = FontWeight.Bold) }
+        },
+    )
 }
 
 @Composable
@@ -451,10 +648,11 @@ private fun MizukiTextField(
 }
 
 @Composable
-private fun MarkdownEditor(
+private fun ColumnScope.MarkdownEditor(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     compact: Boolean = false,
+    fillAvailable: Boolean = false,
 ) {
     val textStyle = TextStyle(
         color = MizukiText,
@@ -462,38 +660,45 @@ private fun MarkdownEditor(
         fontSize = 14.sp,
         lineHeight = 22.sp,
     )
-    BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(if (compact) 220.dp else 320.dp)
-            .background(MizukiBackground.copy(alpha = 0.82f), MaterialTheme.shapes.medium)
-            .border(1.dp, MizukiBorder, MaterialTheme.shapes.medium)
-            .padding(14.dp),
-        textStyle = textStyle,
-        cursorBrush = Brush.verticalGradient(listOf(MizukiAccent, MizukiAccent)),
-        decorationBox = { innerTextField ->
-            Box {
-                if (value.text.isBlank()) {
-                    Text(
-                        "# 在这里写 Markdown\n\n支持标题、列表、代码块和链接…",
-                        color = MizukiMuted.copy(alpha = 0.72f),
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 14.sp,
-                        lineHeight = 22.sp,
-                    )
-                }
-                innerTextField()
-            }
-        },
-    )
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .then(if (fillAvailable) Modifier.weight(1f) else Modifier),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {
-        Text("Markdown", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
-        Text("${value.text.length} 字符", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(if (fillAvailable) Modifier.weight(1f) else Modifier.height(if (compact) 220.dp else 320.dp))
+                .background(MizukiBackground.copy(alpha = 0.82f), MaterialTheme.shapes.medium)
+                .border(1.dp, MizukiBorder, MaterialTheme.shapes.medium)
+                .padding(14.dp),
+            textStyle = textStyle,
+            cursorBrush = Brush.verticalGradient(listOf(MizukiAccent, MizukiAccent)),
+            decorationBox = { innerTextField ->
+                Box {
+                    if (value.text.isBlank()) {
+                        Text(
+                            "# 在这里写 Markdown\n\n支持标题、列表、代码块和链接…",
+                            color = MizukiMuted.copy(alpha = 0.72f),
+                            fontFamily = FontFamily.Monospace,
+                            fontSize = 14.sp,
+                            lineHeight = 22.sp,
+                        )
+                    }
+                    innerTextField()
+                }
+            },
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text("Markdown", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
+            Text("${value.text.length} 字符", style = MaterialTheme.typography.labelSmall, color = MizukiMuted)
+        }
     }
 }
 
@@ -672,11 +877,10 @@ private fun applyMarkdownAction(field: TextFieldValue, action: MarkdownAction): 
 }
 
 @Composable
-private fun MarkdownPreview(markdown: String) {
+private fun MarkdownPreview(markdown: String, modifier: Modifier = Modifier) {
     AndroidView(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(320.dp)
             .border(1.dp, MizukiBorder, MaterialTheme.shapes.medium),
         factory = { context ->
             WebView(context).apply {
