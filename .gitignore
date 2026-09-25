@@ -63,5 +63,11 @@ src/data/bilibili-data.json
 # Live2D editor source files
 *.psd
 *.psd~
+
+# Android build outputs and machine-local SDK configuration
+android/.gradle/
+android/*/build/
+android/local.properties
+android/.idea/
 *.cmo3
 *.vtube.json

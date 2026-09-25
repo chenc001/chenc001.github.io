@@ -147,6 +147,12 @@ PlantUML 默认使用 `src/config/markdownConfig.ts` 中配置的公共服务器
 
 完整字段表、写作语法、图片规则、图表、视频嵌入、加密限制和发布清单请参阅[内容编写指南](docs/CONTENT_AUTHORING.zh.md)。
 
+### 📱 Android APP
+
+仓库提供 Kotlin + Jetpack Compose 编写的 Android 写作客户端，网页编辑器继续保留。客户端支持编写 Markdown、保存 GitHub Fine-grained token 并直接发布到 `src/content/posts/`。Token 由 Android Keystore 加密保存，只需首次输入。
+
+从 [GitHub Releases](https://github.com/chenc001/chenc001.github.io/releases/latest) 下载 APK；开发者也可以查看 [Android 模块说明](android/README.md) 在本地构建。推送 `v*` tag 后，GitHub Actions 会自动构建并创建 Release。
+
 ## ⚡ 命令
 
 所有命令都在项目根目录运行：

@@ -145,6 +145,10 @@ Markdown and MDX support callouts, KaTeX math, Expressive Code, Mermaid, PlantUM
 
 See the complete [Content Authoring Guide](docs/CONTENT_AUTHORING.md) for the frontmatter schema, writing syntax, image rules, diagrams, video embeds, encryption limits, and publishing checklist.
 
+### 📱 Android App
+
+The repository also includes a Kotlin + Jetpack Compose Android writing client. It keeps the web editor intact, stores a GitHub Fine-grained token encrypted with Android Keystore, and publishes Markdown directly to `src/content/posts/`. Download the latest APK from [GitHub Releases](https://github.com/chenc001/chenc001.github.io/releases/latest), or read the [Android module guide](android/README.md). Pushing a `v*` tag automatically builds an APK and creates a Release.
+
 ## 🧩 Markdown Extensions
 
 Mizuki uses one Markdown/MDX pipeline for article pages, RSS, and Atom. It supports callouts, math, enhanced code blocks, Mermaid, PlantUML, GitHub cards, Wiki Links, spoilers, responsive images, image grids, Fancybox lightboxes, and HTML embeds.

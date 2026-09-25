@@ -170,6 +170,7 @@ body { font-family:var(--font); background:var(--bg-base); color:var(--text-prim
 .tool-btn.security-btn { color:#8dd9ff; }
 .tool-btn.publish-btn { background:var(--accent); color:hsl(var(--hue) 20% 10%); font-weight:600; padding-inline:12px; }
 .tool-btn.publish-btn:hover { filter:brightness(1.08); }
+.tool-btn.app-link { text-decoration:none; color:#b8f0c0; }
 .tool-sep { width:1px; height:20px; background:var(--border); margin:0 2px; }
 .tool-group { display:flex; gap:2px; }
 .view-switch { display:flex; background:var(--bg-surface); border-radius:var(--radius-sm); overflow:hidden; margin-right:8px; }
