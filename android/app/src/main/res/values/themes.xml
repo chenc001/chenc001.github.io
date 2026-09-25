@@ -1,3 +1,10 @@
 <resources>
-    <style name="Theme.Mizuki" parent="android:style/Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Mizuki" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#FFDD00</item>
+        <item name="android:statusBarColor">#171710</item>
+        <item name="android:navigationBarColor">#171710</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
 </resources>
