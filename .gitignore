@@ -69,5 +69,7 @@ android/.gradle/
 android/*/build/
 android/local.properties
 android/.idea/
+android/app/src/main/assets/preview/marked.umd.js
+android/release.keystore
 *.cmo3
 *.vtube.json

@@ -24,11 +24,13 @@ Token 建议只授予目标仓库的 `Contents: Read and write` 权限。应用�
 
 ## 自动 Release
 
-`.github/workflows/android-release.yml` 在推送 `v*` tag 时运行，构建可直接安装的 debug APK，并自动创建 GitHub Release 上传 APK。例如：
+`.github/workflows/android-release.yml` 在推送 `v*` tag 时运行，并自动创建 GitHub Release 上传 APK。例如：
 
 ```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-目前 Release 使用 debug 签名，适合个人安装和测试。若要提交 Google Play，需要后续把正式签名密钥放入 GitHub Actions Secrets，并增加 signed AAB 构建。
+要让新 APK 覆盖安装旧版本，需要在仓库 Secrets 中配置同一把正式签名密钥：`ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD`。配置后 CI 会构建 signed release APK，并使用运行编号生成递增的 `versionCode`。
+
+如果没有这些 Secrets，CI 会构建 debug APK 作为测试回退包；不同 GitHub runner 生成的 debug 签名可能不同，不能依赖它做 OTA 更新。此前 `v0.1.0`、`v0.1.1` 和 `v0.1.2` 已经使用不同的 debug 签名，迁移到正式签名时需要手动卸载旧包一次。
