@@ -470,17 +470,11 @@ document.addEventListener('click', e => {
 
 // ========== Theme Switching ==========
 const THEME_CLASSES = ['theme-light', 'theme-deep-blue', 'theme-high-contrast'];
-const hljsStyleLink = document.querySelector('link[href*="highlight.js"]');
 
 function setTheme(theme) {
   THEME_CLASSES.forEach(c => document.body.classList.remove(c));
   if (theme !== 'dark') {
     document.body.classList.add('theme-' + theme);
-  }
-  if (hljsStyleLink) {
-    hljsStyleLink.href = theme === 'light'
-      ? 'https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css'
-      : 'https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark.min.css';
   }
   $$('.theme-opt').forEach(opt => {
     opt.classList.toggle('active', opt.dataset.theme === theme);
@@ -618,10 +612,9 @@ function updatePreview() {
   try {
     preview.innerHTML = marked.parse(content, {
       gfm: true, breaks: true,
-      highlight: (code, lang) => {
-        if (lang && hljs.getLanguage(lang)) {return hljs.highlight(code, { language: lang }).value;}
-        return hljs.highlightAuto(code).value;
-      }
+      // Preview is intentionally HTML-free: article text must not execute
+      // arbitrary markup in the same origin as the encrypted GitHub token.
+      html: false
     });
   } catch(e) {
     preview.innerHTML = marked.parse(content);
@@ -783,6 +776,7 @@ $('#dropOverlay').addEventListener('drop', e => {
 
 // ========== Export ==========
 $('#btnExport').onclick = () => toggleModal('exportModal', true);
+$('#exportClose').onclick = () => toggleModal('exportModal', false);
 $('#exportModal .modal-overlay').onclick = () => toggleModal('exportModal', false);
 
 $$('.export-btn').forEach(btn => {
@@ -835,5 +829,15 @@ window.addEventListener('beforeunload', () => {
     localStorage.setItem('mizuki-editor-content', editor.value);
   }
 });
+
+// Keep the publishing integration separate from the editor UI while exposing
+// only the two operations it needs. Tokens never cross this boundary.
+window.mizukiEditor = {
+  getContent: () => editor.value,
+  setContent: content => {
+    editor.value = content;
+    updatePreview();
+  },
+};
 
 })();

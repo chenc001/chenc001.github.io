@@ -1,0 +1,19 @@
+---
+const editorPath = "/editor/editor.html";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="refresh" content={`0; url=${editorPath}`} />
+		<title>写文章 - 辰萃</title>
+	</head>
+	<body>
+		<p>正在打开写作页面… <a href={editorPath}>如果没有自动打开，请点击这里。</a></p>
+		<script is:inline define:vars={{ editorPath }}>
+			window.location.replace(editorPath);
+		</script>
+	</body>
+</html>

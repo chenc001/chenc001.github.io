@@ -1,0 +1,69 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<a
+	href="/write/"
+	class="write-post-entry card-base onload-animation"
+	aria-label="写文章"
+>
+	<span class="write-post-icon"><Icon name="material-symbols:edit-note" /></span>
+	<span class="write-post-copy">
+		<strong>写文章</strong>
+		<small>在手机或电脑上编辑 Markdown，并安全发布到 GitHub</small>
+	</span>
+	<Icon name="material-symbols:arrow-forward-rounded" class="write-post-arrow" />
+</a>
+
+<style>
+	.write-post-entry {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		width: 100%;
+		margin-bottom: 1rem;
+		padding: 0.75rem 1rem;
+		color: var(--btn-content);
+		transition: transform 180ms ease, border-color 180ms ease;
+	}
+	.write-post-entry:hover {
+		transform: translateY(-2px);
+		border-color: var(--primary);
+	}
+	.write-post-icon {
+		display: grid;
+		place-items: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 0.75rem;
+		background: color-mix(in srgb, var(--primary) 14%, transparent);
+		color: var(--primary);
+		font-size: 1.35rem;
+	}
+	.write-post-copy {
+		display: flex;
+		min-width: 0;
+		flex: 1;
+		flex-direction: column;
+		gap: 0.1rem;
+	}
+	.write-post-copy strong {
+		font-size: 0.95rem;
+	}
+	.write-post-copy small {
+		overflow: hidden;
+		color: color-mix(in srgb, var(--btn-content) 62%, transparent);
+		font-size: 0.75rem;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.write-post-arrow {
+		color: var(--primary);
+		font-size: 1.2rem;
+	}
+	@media (max-width: 480px) {
+		.write-post-copy small {
+			white-space: normal;
+		}
+	}
+</style>

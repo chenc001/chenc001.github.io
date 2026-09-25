@@ -1,6 +1,7 @@
 ---
 import ArchivePanel from "@components/features/archive/ArchivePanel.svelte";
 import CategoryBar from "@components/features/posts/CategoryBar.astro";
+import WritePostEntry from "@components/features/posts/WritePostEntry.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -41,6 +42,7 @@ const categories = [
 ---
 
 <MainGridLayout title={i18n(I18nKey.archive)}>
+	<WritePostEntry />
 	{showCategoryBar && <CategoryBar />}
 	<!-- 引入右侧边栏布局管理器 -->
 	<script>

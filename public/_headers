@@ -11,6 +11,9 @@
 /*
   Cache-Control: public, max-age=3600, must-revalidate
 
+/editor/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://api.github.com; frame-ancestors 'none'; base-uri 'none'; object-src 'none'
+
 /_astro/*
   ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable

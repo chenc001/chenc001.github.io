@@ -131,6 +131,11 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		{
+			name: "写文章",
+			url: "/write/",
+			icon: "material-symbols:edit-note",
+		},
+		{
 			name: "我的",
 			url: "#",
 			icon: "material-symbols:person",
